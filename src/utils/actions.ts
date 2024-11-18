@@ -12,7 +12,7 @@ export function MatchSocket(body: string): WebSocket {
   let b = JSON.parse(body) 
   id.set(b.id)
   direction.set(b.direction)
-  let socket = new WebSocket(`ws://localhost:12345/games/${get(id)}`, player_id)
+  let socket = new WebSocket(`ws://localhost:12345/games/${get(id)}`, b.direction)
 
   socket.addEventListener("message", (message) => {
     let action: Action = JSON.parse(message.data)

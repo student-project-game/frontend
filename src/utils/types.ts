@@ -8,14 +8,16 @@ export type Troop = {
 	Tile: Tile,
 	NextTile: Tile,
 	MovementSpeed: number,
-	Player: string,
+	Team: string,
 	Radius: number,
 	Vision: number,
+	Splash: number,
 	State: string,
 	AttackSpeed: number,
 	MaxHP: number,
 	HP: number,
 	Lock: string,
+	Type: string,
 }
 
 export type Tile = {

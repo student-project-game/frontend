@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import Troop from "./Troop/index.svelte"
   import { number } from "mathjs";
-    import { fly } from "svelte/transition";
+  import { fly } from "svelte/transition";
 
   export let match: WebSocket;
 
