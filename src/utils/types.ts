@@ -20,6 +20,11 @@ export type Troop = {
 	Type: string,
 }
 
+export type Card = {
+	Name: string
+	Cost: number
+}
+
 export type Tile = {
 	x: number,
 	y: number,

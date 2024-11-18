@@ -1,3 +1,4 @@
+import { Countdown, Elixir } from "./game/game"
 import { JoinMatch, KillTroop, UpdateTroop } from "./game/troops"
 import { generateId } from "./helpers"
 import type { Action } from "./types"
@@ -12,7 +13,7 @@ export function MatchSocket(body: string): WebSocket {
   let b = JSON.parse(body) 
   id.set(b.id)
   direction.set(b.direction)
-  let socket = new WebSocket(`ws://localhost:12345/games/${get(id)}`, b.direction)
+  let socket = new WebSocket(`ws://localhost:12345/games/${get(id)}`, player_id)
 
   socket.addEventListener("message", (message) => {
     let action: Action = JSON.parse(message.data)
@@ -23,6 +24,12 @@ export function MatchSocket(body: string): WebSocket {
         break;
       case "troop":
 	UpdateTroop(action.body)
+	break;
+      case "countdown":
+	Countdown(action.body)
+	break;
+      case "elixir":
+	Elixir(action.body)	
 	break;
       case "death":
 	KillTroop(action.body)

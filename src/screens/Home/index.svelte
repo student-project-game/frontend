@@ -4,7 +4,7 @@
   export let socket: WebSocket;
 
   function onJoin() {
-    socket.send(JSON.stringify({name: "join", body: JSON.stringify({playerCount: 2})}))
+    socket.send(JSON.stringify({name: "join", body: JSON.stringify("1v1")}))
   }
 </script>
 

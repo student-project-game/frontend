@@ -9,7 +9,6 @@
   let match: WebSocket;
 
   socket.addEventListener("message", (message) => {
-    console.log(message)
     let action: Action = JSON.parse(message.data)
     switch (action.name) {
       case "game_id":

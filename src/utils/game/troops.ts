@@ -1,15 +1,12 @@
 import { get, writable, type Writable } from "svelte/store"
-import type { Troop } from "../types"
+import type { Card, Troop } from "../types"
 
 export let troops: Writable<{[key: string]:Troop}> = writable({})
 export let dead: Writable<Set<string>> = writable(new Set())
+export let selectedCard: Writable<Card> = writable()
 
 export function UpdateTroop(body: string) {
   let troop: Troop = JSON.parse(body).troop
-
-  if (troop.Type != "building") {
-    console.log(troop)
-  }
 
   if (get(dead).has(troop.ID)) {
     return

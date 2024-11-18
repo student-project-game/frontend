@@ -13,6 +13,7 @@
     troop.NextTile.y = 32 - troop.NextTile.y 
   }
 
+
   let position: Tweened<Tile> = tweened({x: troop.Tile.x * 20, y: troop.Tile.y * 20}, { duration: troop.MovementSpeed, easing: linear})
 
   position.set({x: troop.NextTile.x * 20, y: troop.NextTile.y * 20})
@@ -23,13 +24,13 @@
     angle = Math.atan2($troops[troop.Lock].Tile.x - troop.Tile.x, $troops[troop.Lock].Tile.y - troop.NextTile.y)
   }
 
-  if (troop.Type != "building") {
-    console.log(troop.HP)
+  if (troop.Type == "projectile") {
+    console.log(troop)
   }
 
 </script>
 
-{#if troop.HP > 0 || troop.Team == ""}
+{#if troop.HP > 0 || troop.Team == ""  || troop.Type === "projectile"}
   <div class="absolute z-[100] w-[20px] h-[20px] border-[1px] {troop.Team == $direction ? 'bg-blue-500 border-blue-700' : 'bg-red-500 border-red-700'}" 
     style:top={`${startY + $position.y}px`} style:left={`${startX + $position.x}px`}
     style={`transform: rotate(${angle}rad);`}
