@@ -24,5 +24,6 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"svelte-material-icons": "^3.0.5"
 	}
 }

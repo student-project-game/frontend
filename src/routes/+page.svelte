@@ -27,12 +27,12 @@
 
 </script>
 
-<div class="absolute top-0 w-[100vw] h-[10vh] flex justify-between py-[1vh] px-[1vw]">
-  <p class="text-md font-bold">Player: {player_id}</p>
-
-  <p class="text-md font-bold">ID: {$id}</p>
-</div>
-
+<!-- <div class="absolute top-0 w-[100vw] h-[10vh] flex justify-between py-[1vh] px-[1vw]"> -->
+<!--   <p class="text-md font-bold">Player: {player_id}</p> -->
+<!---->
+<!--   <p class="text-md font-bold">ID: {$id}</p> -->
+<!-- </div> -->
+<!---->
 <div class="w-[100vw] h-[100vh] grid justify-center items-center">
   {#if $id === "home"}
     <Home bind:socket/>

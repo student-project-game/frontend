@@ -9,38 +9,89 @@
   export let startY: number;
 
   if ($direction == "up") {
-    troop.Tile.y = 32 - troop.Tile.y 
-    troop.NextTile.y = 32 - troop.NextTile.y 
+    troop.Tile.y = 32 - troop.Tile.y;
+    troop.NextTile.y = 32 - troop.NextTile.y;
   }
 
+  let position: Tweened<Tile> = tweened(
+    { x: troop.Tile.x * 20, y: troop.Tile.y * 20 },
+    { duration: troop.MovementSpeed, easing: linear },
+  );
 
-  let position: Tweened<Tile> = tweened({x: troop.Tile.x * 20, y: troop.Tile.y * 20}, { duration: troop.MovementSpeed, easing: linear})
+  let frame: Tweened<number> = tweened(1, {
+    duration:
+      troop.State === "moving"
+        ? troop.MovementSpeed / 2
+        : troop.AttackSpeed / 2,
+    easing: linear,
+  });
 
-  position.set({x: troop.NextTile.x * 20, y: troop.NextTile.y * 20})
+  frame.set(18);
 
-  let angle = Math.atan2(troop.NextTile.x - troop.Tile.x, troop.Tile.y - troop.NextTile.y)
+  setTimeout(() => {
+    frame.set(1);
+  }, troop.MovementSpeed / 2);
+
+  position.set({ x: troop.NextTile.x * 20, y: troop.NextTile.y * 20 });
+
+  let angle = Math.atan2(
+    troop.NextTile.x - troop.Tile.x,
+    troop.Tile.y - troop.NextTile.y,
+  );
 
   if (troop.State === "attacking" && $troops[troop.Lock]) {
-    angle = Math.atan2($troops[troop.Lock].Tile.x - troop.Tile.x, $troops[troop.Lock].Tile.y - troop.NextTile.y)
+    angle = Math.atan2(
+      $troops[troop.Lock].Tile.x - troop.Tile.x,
+      troop.Tile.y - $troops[troop.Lock].Tile.y,
+    );
   }
 
-  if (troop.Type == "projectile") {
-    console.log(troop)
+  if (troop.Type != "building") {
+    console.log(troop);
   }
-
 </script>
 
-{#if troop.HP > 0 || troop.Team == ""  || troop.Type === "projectile"}
-  <div class="absolute z-[100] w-[20px] h-[20px] border-[1px] {troop.Team == $direction ? 'bg-blue-500 border-blue-700' : 'bg-red-500 border-red-700'}" 
-    style:top={`${startY + $position.y}px`} style:left={`${startX + $position.x}px`}
+{#if troop.HP > 0 || troop.Team == "" || troop.Type === "projectile"}
+  <div
+    class="absolute {troop.Name === 'water'
+      ? 'bg-blue-400'
+      : ''} w-[20px] h-[20px] z-[100] grid justify-start"
+    style:top={`${startY + $position.y}px`}
+    style:left={`${startX + $position.x}px`}
     style={`transform: rotate(${angle}rad);`}
   >
+    {#if troop.Name === "water"}
+      <div class="bg-blue-500 w-full h-full"></div>
+    {:else if troop.Name === "tower"}
+      <div class="bg-blue-500 w-full h-full"></div>
+    {:else if troop.Type === "projectile"}
+      <img
+        src={`/${troop.Name}/0.png`}
+        class="absolute top-[-10px]"
+        alt=""
+        width="full"
+      />
+    {:else}
+      <img
+        src={`/${troop.Name}/${troop.State === "moving" ? "Walk" : "Attack"}/${Math.ceil($frame)}.png`}
+        class="absolute top-[-10px] scale-[300%]"
+        alt=""
+        width="full"
+      />
+    {/if}
   </div>
 
-  <div class="{troop.Team === '' ? 'hidden' : ''} text-center absolute z-[91] w-[60px] h-[20px] border-[1px] {troop.Team == $direction ? 'bg-blue-300 border-blue-500' : 'bg-red-300 border-red-500'}" 
-    style:top={`${startY + ($position.y + 20)}px`} style:left={`${startX + ($position.x - 20)}px`}
+  <div
+    class="{troop.Team === ''
+      ? 'hidden'
+      : ''} text-center absolute z-[91] w-[60px] text-black h-[20px] mt-[10px] border-[1px] {troop.Team ==
+    $direction
+      ? 'bg-blue-300 border-blue-500'
+      : 'bg-red-300 border-red-500'}"
+    style:top={`${startY + ($position.y + 20)}px`}
+    style:left={`${startX + ($position.x - 20)}px`}
   >
-    {troop.HP / (troop.MaxHP/100)}%
+    {troop.HP / (troop.MaxHP / 100)}%
   </div>
 
   <!-- <div class="absolute z-[90] border-[1px] {troop.Team == player_id ? 'bg-blue-300 border-blue-500' : 'bg-red-300 border-red-500'}"  -->
@@ -50,4 +101,3 @@
   <!-- > -->
   <!-- </div> -->
 {/if}
-
